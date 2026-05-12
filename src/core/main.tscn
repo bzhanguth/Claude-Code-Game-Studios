@@ -1,0 +1,39 @@
+; Main.tscn — persistent shell scene per scene-location-management.md Rule 3.
+;
+; This scene is the run/main_scene set in project.godot. It is the ONLY root
+; scene for the application's lifetime — SceneTree.change_scene_to_file is
+; NEVER called after boot (would destroy autoload children of root).
+;
+; Structure (exactly three siblings under Main, per Rule 3):
+;   - LocationContainer (Node2D)             — parent of active location; child swapped on travel
+;   - HUD              (CanvasLayer layer=10) — Stats/HUD UI #15 tree; persists across travel
+;   - FadeOverlay      (CanvasLayer layer=100) — full-screen ColorRect(BLACK); modulate.a animated
+;     └─ FadeRect      (ColorRect)             — covers viewport; mouse_filter=STOP absorbs touches when opaque
+;
+; SceneManager._resolve_main_scene_refs asserts these paths exactly. Do not
+; rename or reparent without coordinated SceneManager update.
+;
+; Note: this file omits the [gd_scene uid="..."] field. Godot will auto-generate
+; the UID on first open and add it to this file.
+
+[gd_scene format=3]
+
+[node name="Main" type="Node2D"]
+
+[node name="LocationContainer" type="Node2D" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="FadeOverlay" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="FadeRect" type="ColorRect" parent="FadeOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0)
+color = Color(0, 0, 0, 1)
