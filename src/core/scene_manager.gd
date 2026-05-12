@@ -239,6 +239,15 @@ func _ready() -> void:
 	# get_tree().root.get_node("Main") returns a valid reference before we
 	# touch any scene-tree children.
 	await get_tree().process_frame
+
+	# In CLI test contexts (e.g., `godot -s addons/gut/gut_cmdln.gd`), the GUT
+	# script replaces run/main_scene — Main.tscn never mounts. Skip all
+	# Main-dependent setup so autoloads don't crash test runs. Production
+	# bootstraps run/main_scene normally and reach the full pipeline below.
+	if get_tree().root.get_node_or_null("Main") == null:
+		push_warning("SceneManager: /root/Main not mounted; skipping boot pipeline. Expected in CLI test contexts.")
+		return
+
 	_resolve_main_scene_refs()
 	_subscribe_to_gameplay_signals()
 	await _boot_load_active_location()

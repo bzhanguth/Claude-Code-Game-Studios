@@ -136,11 +136,12 @@ func test_request_save_during_shutting_down_is_dropped() -> void:
 func test_state_changed_signal_emits_with_from_to_args() -> void:
 	watch_signals(save_state)
 	save_state._transition_state(save_state.State.DIRTY)
+	# Note: assert_signal_emitted_with_parameters(emitter, name, params, index=-1).
+	# The 4th arg is an int index (default -1 = last emission), NOT a message.
 	assert_signal_emitted_with_parameters(
 		save_state,
 		"state_changed",
-		[save_state.State.READY, save_state.State.DIRTY],
-		"state_changed should emit with (from, to) state values"
+		[save_state.State.READY, save_state.State.DIRTY]
 	)
 
 

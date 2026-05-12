@@ -151,11 +151,12 @@ func test_rod_grip_sentinel_value_is_negative_per_contract() -> void:
 func test_state_changed_signal_emits_with_from_to_args() -> void:
 	watch_signals(sm)
 	sm._transition_state(sm.State.IN_LOCATION)
+	# Note: assert_signal_emitted_with_parameters(emitter, name, params, index=-1).
+	# The 4th arg is an int index (default -1 = last emission), NOT a message.
 	assert_signal_emitted_with_parameters(
 		sm,
 		"state_changed",
-		[sm.State.BOOTING, sm.State.IN_LOCATION],
-		"state_changed should emit with (from, to) state values"
+		[sm.State.BOOTING, sm.State.IN_LOCATION]
 	)
 
 
