@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: ""
+last_updated: 2026-05-12
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -139,7 +139,62 @@ formulas: []
 #
 # Required fields: name, status, source, referenced_by, value, unit, added
 
-constants: []
+constants:
+  - name: starting_location_id
+    status: active
+    source: design/gdd/scene-location-management.md
+    referenced_by:
+      - design/gdd/scene-location-management.md
+      - design/gdd/save-persistence.md
+      - design/gdd/fish-species-catalog.md
+      - design/gdd/game-concept.md
+    value: "riverside_pond"
+    unit: location_id
+    added: 2026-05-12
+    revised: 2026-05-12  # added fish-species-catalog.md to referenced_by per /consistency-check
+
+  - name: mvp_unlock_location_id
+    status: active
+    source: design/gdd/scene-location-management.md
+    referenced_by:
+      - design/gdd/scene-location-management.md
+      - design/gdd/fish-species-catalog.md
+      - design/gdd/game-concept.md
+    value: "deep_lake"
+    unit: location_id
+    added: 2026-05-12
+    revised: 2026-05-12  # added fish-species-catalog.md to referenced_by per /consistency-check
+
+  - name: rod_grip_sentinel
+    status: active
+    source: design/gdd/scene-location-management.md
+    referenced_by:
+      - design/gdd/scene-location-management.md
+      # design/gdd/cast-direction-aiming.md — pending: append when Cast Direction's
+      # next minor revision documents the sentinel guard (tracked in scene-location-management.md
+      # Dependencies table + EC #11; consumer must check `< 0` per Section G)
+    value: [-1, -1]
+    unit: pixels (Vector2)
+    added: 2026-05-12
+    revised: 2026-05-12  # removed aspirational cast-direction-aiming.md reference per /consistency-check
+    notes: |
+      Sentinel-value collision noted with Touch Input's iOS-cancel sentinel (touch-input-system.md
+      lines 46, 186, 292, 296, 349). Same exact value Vector2(-1, -1), different semantics, no
+      functional collision (different APIs / data flows). If a third sentinel with this value is
+      ever proposed, prefer a distinct numeric (e.g., Vector2(-2, -2)) to avoid ambiguity.
+
+  - name: main_scene_path
+    status: active
+    source: design/gdd/scene-location-management.md
+    referenced_by:
+      - design/gdd/scene-location-management.md
+      # design/gdd/save-persistence.md — pending: append when Save's next minor revision
+      # replaces the "main gameplay scene path TBD" placeholder in AC 32 with this value
+      # (tracked in scene-location-management.md Open Question SAVE-AC32)
+    value: "res://src/core/main.tscn"
+    unit: resource_path
+    added: 2026-05-12
+    revised: 2026-05-12  # removed aspirational save-persistence.md reference per /consistency-check
 
 # Example:
 #
